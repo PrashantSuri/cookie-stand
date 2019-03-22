@@ -1,39 +1,17 @@
 "use-strict"
 
-var firstPike = {
-    name: '1st and Pike',
-    minCust: 23,
-    maxCust: 65,
-    avgCookie: 6.3,
-};
-
-var seatac = {
-    name: 'Seattle Tacoma Airport',
-    minCust: 3,
-    maxCust: 24,
-    avgCookie: 1.2
+function LocationSalesData(location, minCust, maxCust, avgCookie) {
+    this.location = location;
+    this.minCust = minCust;
+    this.maxCust = maxCust;
+    this.avgCookie = avgCookie;
 }
 
-var seaCenter = {
-    name: 'Seattle Center',
-    minCust: 11,
-    maxCust: 38,
-    avgCookie: 3.7
-}
-
-var capitolHill = {
-    name: 'Capito Hill',
-    minCust: 20,
-    maxCust: 38,
-    avgCookie: 2.3
-}
-
-var alki = {
-    name: 'Alki',
-    minCust: 2,
-    maxCust: 16,
-    avgCookie: 4.6
-}
+var firstPike = new LocationSalesData('1st and Pike', 23, 65, 6.3);
+var seatac = new LocationSalesData('Seattle Tacoma Airport', 3, 24, 1.2);
+var seaCenter = new LocationSalesData('Seattle Center', 11, 38, 3.7);
+var capitolHill = new LocationSalesData('Capito Hill', 20, 38, 2.3);
+var alki = new LocationSalesData('Alki', 2, 16, 4.6);
 
 var storesArray = [firstPike, seatac, seaCenter, capitolHill, alki];
 var mainEl = document.getElementById("counts");

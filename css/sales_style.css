@@ -43,3 +43,26 @@ p {
 li {
     margin: 10px 10px 10px 60px;
 }
+
+thead {
+    background: #890;
+}
+
+th {
+    padding: 10px;
+    font-size: 12px;
+    border: 1px solid;
+    color: #000;
+}
+
+tr {
+    padding: 10px;
+    border: 1px solid;
+    color: #000;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid;
+    color: #000;
+}

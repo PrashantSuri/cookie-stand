@@ -19,6 +19,8 @@ var workingHours = [
     '9:00 PM'
 ];
 var tableEl = document.getElementById("counts");
+var form = document.getElementById("user-input");
+var storesArray = [];
 
 function LocationSalesData(location, minCust, maxCust, avgCookie) {
     this.location = location;
@@ -27,9 +29,11 @@ function LocationSalesData(location, minCust, maxCust, avgCookie) {
     this.avgCookie = avgCookie;
     this.hourlyCookiesSale = [];
     this.locationTotalSale = 0;
+    storesArray.push(this);
     this.calculateHourlySales = function() {
         for (var i=0; i<workingHours.length; i++) {
             var cookieCount = Math.floor(this.avgCookie*getCustCount(this.minCust, this.maxCust));
+            console.log(workingHours[i] + " " + this.avgCookie + " " + cookieCount + " " + this.maxCust);
             this.hourlyCookiesSale.push(cookieCount);
             this.locationTotalSale += cookieCount;
         }
@@ -55,16 +59,62 @@ function LocationSalesData(location, minCust, maxCust, avgCookie) {
     }
 }
 
-var firstPike = new LocationSalesData('1st and Pike', 23, 65, 6.3);
-var seatac = new LocationSalesData('Seattle Tacoma Airport', 3, 24, 1.2);
-var seaCenter = new LocationSalesData('Seattle Center', 11, 38, 3.7);
-var capitolHill = new LocationSalesData('Capito Hill', 20, 38, 2.3);
-var alki = new LocationSalesData('Alki', 2, 16, 4.6);
+function addLocation(event) {
+    event.preventDefault();
 
-var storesArray = [firstPike, seatac, seaCenter, capitolHill, alki];
+    var locationName = event.target.location.value;
+    var minCustomer = event.target.mincustomer.value;
+    var maxCustomer = event.target.maxcustomer.value;
+    var avgCookie = event.target.avgcookie.value;
+
+    var duplicate = validateDuplicate(locationName);
+
+    if (duplicate === 'N') {
+    var newLocation = new LocationSalesData(locationName, minCustomer, maxCustomer, avgCookie);
+    newLocation.render();
+    createTableFooter();
+    } else {
+        alert('Location already present in table.');
+    }
+    form.reset();
+}
+
+function validateDuplicate(locationName) {
+    for (var i=0; i<storesArray.length; i++) {
+        if (storesArray[i].location === locationName) {
+            console.log('Duplicate Location Submitted - ' + locationName);
+            return 'Y'
+        }
+    }
+    return 'N';
+}
 
 function getCustCount(min, max) {
-    return Math.floor((Math.random()*(max - min)) + min);
+    var custCount = Math.random()*(max - min);
+    custCount += min;
+    return custCount;
+}
+
+function calculateAllLocationSales() {
+    var overallSales = 0;
+    var trEl = document.createElement('tr');
+    tableEl.appendChild(trEl);
+    var tdEl = document.createElement('td')
+    tdEl.textContent = 'Hourly Totals';
+    trEl.appendChild(tdEl);
+    for (var i=0; i<workingHours.length; i++) {
+        var hourlyTotals = 0;
+        for (var j=0; j<storesArray.length; j++) {
+            hourlyTotals += storesArray[j].hourlyCookiesSale[i];
+        }
+        var tdEl = document.createElement('td')
+        tdEl.textContent = hourlyTotals;
+        trEl.appendChild(tdEl);
+        overallSales += hourlyTotals;
+    }
+    var tdEl = document.createElement('td')
+    tdEl.textContent = overallSales;
+    trEl.appendChild(tdEl);
 }
 
 function createTableHeader() {
@@ -87,31 +137,14 @@ function createTableHeader() {
 }
 
 function createTableFooter() {
-    var overallSales = 0;
-    var trEl = document.createElement('tr');
-    tableEl.appendChild(trEl);
-    var tdEl = document.createElement('td')
-    tdEl.textContent = 'Hourly Totals';
-    trEl.appendChild(tdEl);
-    for (var i=0; i<workingHours.length; i++) {
-        var hourlyTotals = 0;
-        for (var j=0; j<storesArray.length; j++) {
-            hourlyTotals += storesArray[j].hourlyCookiesSale[i];
-        }
-        var tdEl = document.createElement('td')
-        tdEl.textContent = hourlyTotals;
-        trEl.appendChild(tdEl);
-        overallSales += hourlyTotals;
+    let table = document.querySelector('table');
+    if (storesArray.length > 1) {
+        console.log('Stores Array Length - ' + storesArray.length);
+        table.deleteRow(storesArray.length-1);
     }
-    var tdEl = document.createElement('td')
-    tdEl.textContent = overallSales;
-    trEl.appendChild(tdEl);
+    calculateAllLocationSales();
 }
 
 createTableHeader();
 
-for (j=0; j<storesArray.length; j++) {
-  storesArray[j].render();
-}
-
-createTableFooter();
+form.addEventListener('submit', addLocation);

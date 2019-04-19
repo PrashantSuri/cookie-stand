@@ -66,3 +66,12 @@ td {
     border: 1px solid;
     color: #000;
 }
+
+form {
+    padding: 20px;
+    font-size: 14px;
+}
+
+label {
+    width: 30px;
+}

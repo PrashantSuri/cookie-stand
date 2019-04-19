@@ -20,6 +20,27 @@
             </section>
         </header>
         <main>
+            <form id="user-input">
+                <fieldset>
+                    <label for="location">Location Name</label>
+                    <input id="location" name="location" type="text" required>
+                </fieldset>
+                <fieldset>
+                    <label for="avgcookie">Avg. Cookies per Customer</label>
+                    <input id="avgcookie" name="avgcookie" type="number" required>
+                </fieldset>
+                <fieldset>
+                    <label for="mincustomer">Min Customer/hour</label>
+                    <input id="mincustomer" name="mincustomer" type="number" required>
+                </fieldset>
+                <fieldset>
+                    <label for="maxcustomer">Max Customer/hour</label>
+                    <input id="maxcustomer" name="maxcustomer" type="number" required>
+                </fieldset>
+                <fieldset>
+                    <button id="submit" type="submit">Add Location</button>
+                </fieldset>
+            </form>
             <p>Cookie Sales figures</p><br><br>
                 <table id="counts">
                     <script type="text/javascript" src="js/sales.js"></script>
